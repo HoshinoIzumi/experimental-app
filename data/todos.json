@@ -1,12 +1,20 @@
 {
-    "tasks":[
-        {
-            "id":"1",
-            "text":"buy milk"
-        },
-                {
-            "id":"2",
-            "text":"help my friend"
-        }
-    ]
+  "tasks": [
+    {
+      "id": "742d91cc-0537-4d08-8654-3cb9f60e0378",
+      "title": "test1",
+      "description": "tester",
+      "completed": false,
+      "createdAt": "2025-10-15T09:38:50.370Z",
+      "updatedAt": "2025-10-15T09:38:50.370Z"
+    },
+    {
+      "id": "1feb3862-7bf3-44a5-adf9-47e8f2700986",
+      "title": "test",
+      "description": "test",
+      "completed": false,
+      "createdAt": "2025-10-15T09:44:00.593Z",
+      "updatedAt": "2025-10-15T09:44:00.593Z"
+    }
+  ]
 }
