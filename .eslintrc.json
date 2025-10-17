@@ -1,0 +1,30 @@
+{
+  "root": true,
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": ["@typescript-eslint", "prettier"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "semi": false,
+        "singleQuote": true,
+        "printWidth": 100,
+        "tabWidth": 2,
+        "trailingComma": "es5",
+        "endOfLine": "auto"
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": "warn",
+    "react/react-in-jsx-scope": "off"
+  },
+  "ignorePatterns": ["node_modules", ".next", "dist"]
+}

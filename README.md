@@ -61,7 +61,4 @@ https://daisyui.com/docs/install/nextjs/
 
 The component name matches your filename (`AddTask.jsx` → `AddTask`).
 
- **ES7+ React/Redux/React-Native snippets** extension (very popular in VS Code).
-
-
-
+**ES7+ React/Redux/React-Native snippets** extension (very popular in VS Code).
