@@ -1,12 +1,12 @@
-'use client'
-import React, { useEffect, useState } from 'react'
-import { createPortal } from 'react-dom'
+"use client";
+import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 
 interface ModalProps {
-  modalOpen: boolean
-  setModalOpen: (v: boolean) => void
-  children: React.ReactNode
-  closeOnBackdrop?: boolean
+  modalOpen: boolean;
+  setModalOpen: (v: boolean) => void;
+  children: React.ReactNode;
+  closeOnBackdrop?: boolean;
 }
 
 export default function Modal({
@@ -15,15 +15,15 @@ export default function Modal({
   children,
   closeOnBackdrop = true,
 }: ModalProps) {
-  const [mounted, setMounted] = useState(false)
-  useEffect(() => setMounted(true), [])
-  if (!mounted) return null
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
 
-  const onClose = () => setModalOpen(false)
+  const onClose = () => setModalOpen(false);
 
   return createPortal(
     <div
-      className={`modal ${modalOpen ? 'modal-open' : ''}`}
+      className={`modal ${modalOpen ? "modal-open" : ""}`}
       onClick={closeOnBackdrop ? onClose : undefined}
       role="dialog"
       aria-modal="true"
@@ -40,6 +40,6 @@ export default function Modal({
         {children}
       </div>
     </div>,
-    document.body
-  )
+    document.body,
+  );
 }
