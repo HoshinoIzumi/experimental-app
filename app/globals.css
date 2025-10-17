@@ -2,7 +2,6 @@
 @import "tw-animate-css";
 @plugin "daisyui";
 
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -69,11 +68,11 @@
 
 @layer base {
   * {
-    border-color: var(--border);          
+    border-color: var(--border);
     outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
   }
   body {
-    background-color: var(--background);  
-    color: var(--foreground);             
+    background-color: var(--background);
+    color: var(--foreground);
   }
 }

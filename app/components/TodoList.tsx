@@ -1,8 +1,13 @@
-import type { ITask } from '@/types/tasks'
-import Task from './Task'
+import type { ITask } from "@/types/tasks";
+import Task from "./Task";
 import {
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
-} from '@/components/ui/table'
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export default function TodoList({ tasks }: { tasks: ITask[] }) {
   return (
@@ -25,5 +30,5 @@ export default function TodoList({ tasks }: { tasks: ITask[] }) {
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }
