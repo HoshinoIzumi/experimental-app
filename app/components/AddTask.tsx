@@ -1,85 +1,79 @@
-"use client";
+'use client'
 
-import { GoPlus } from "react-icons/go";
-import Modal from "./Modal";
-import { useState } from "react";
-import { addNewTodo } from "@/api";
-import type { ITask } from "@/types/tasks";
-import { useRouter } from "next/navigation";
+import { useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { Plus } from 'lucide-react'
+import { addNewTodo } from '@/api'
+import type { ITask } from '@/types/tasks'
+
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,
+} from '@/components/ui/dialog'
 
 interface AddTaskProps {
-  onAdded?: (task: ITask) => void;
+  onAdded?: (task: ITask) => void
 }
 
-const AddTask: React.FC<AddTaskProps> = ({ onAdded }) => {
-  const router = useRouter();
-  const [modalOpen, setModalOpen] = useState(false);
-  const [newTaskValue, setNewTaskValue] = useState("");
-  const [description, setDescription] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+export default function AddTask({ onAdded }: AddTaskProps) {
+  const router = useRouter()
+  const [open, setOpen] = useState(false)
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const latch = useRef(false)
 
-  const handleSubmitNewTodo = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const title = newTaskValue.trim();
-    if (!title) return;
-
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const t = title.trim()
+    if (!t || submitting || latch.current) return
+    latch.current = true
     try {
-      setSubmitting(true);
-      const saved = await addNewTodo(title, description);
-      onAdded?.(saved);
-      setNewTaskValue("");
-      setDescription("");
-      setModalOpen(false);
-      router.refresh();
-    } catch (err) {
-      console.error("Add task failed:", err);
-      // TODO: toast/error handling
+      setSubmitting(true)
+      const saved = await addNewTodo(t, description.trim() || undefined)
+      onAdded ? onAdded(saved) : router.refresh()
+      setOpen(false)
+      setTitle('')
+      setDescription('')
     } finally {
-      setSubmitting(false);
+      setSubmitting(false)
+      latch.current = false
     }
-  };
+  }
 
   return (
-    <div>
-      <button
-        onClick={() => setModalOpen(true)}
-        className="btn btn-primary w-full"
-      >
-        <GoPlus size={20} className="ml-2" />
-        Add new task
-      </button>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button className="w-full">
+          <Plus className="mr-2 h-4 w-4" />
+          Add new task
+        </Button>
+      </DialogTrigger>
 
-      <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
-        <form onSubmit={handleSubmitNewTodo}>
-          <h3 className="font-bold text-lg mb-4">Add New Task</h3>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Add New Task</DialogTitle>
+        </DialogHeader>
 
-          <input
-            value={newTaskValue}
-            onChange={(e) => setNewTaskValue(e.target.value)}
-            type="text"
+        <form onSubmit={submit} className="space-y-3">
+          <Input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             placeholder="Task Title"
-            className="input input-bordered w-full mb-4"
             autoFocus
           />
-
-          <textarea
+          <Textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Task Description"
-            className="textarea textarea-bordered w-full mb-4"
           />
-
-          <button
-            type="submit"
-            className="btn btn-primary w-full"
-            disabled={!newTaskValue.trim() || submitting}
-          >
-            {submitting ? "Saving..." : "Add Task"}
-          </button>
+          <Button type="submit" className="w-full" disabled={!title.trim() || submitting}>
+            {submitting ? 'Saving...' : 'Add Task'}
+          </Button>
         </form>
-      </Modal>
-    </div>
-  );
-};
-
-export default AddTask;
+      </DialogContent>
+    </Dialog>
+  )
+}
