@@ -1,6 +1,7 @@
 import { getAllTodos } from "@/api";
 import AddTask from "./components/AddTask";
 import TodoList from "./components/TodoList";
+import Link from "next/link";
 
 export default async function Home() {
   const tasks = await getAllTodos();
@@ -12,6 +13,9 @@ export default async function Home() {
         <AddTask />
       </div>
       <TodoList tasks={tasks} />
+      <Link href="/shadcn" className="btn btn-outline btn-sm align-middle mt-4">
+        Check shadcn version
+      </Link>
     </main>
   );
 }
