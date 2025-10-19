@@ -19,11 +19,13 @@ type Actions = {
   remove: (id: string) => Promise<void>
 }
 
+const toErrorMessage = (e: unknown): string =>
+  e instanceof Error ? e.message : typeof e === 'string' ? e : 'Unknown error'
+
 export const useTodoStore = create<State & Actions>((set, get) => ({
   tasks: [],
   loading: false,
   error: undefined,
-  _hydrrated: false, // 小拼写修正：下面统一用 _hydrated
   _hydrated: false,
 
   hydrate: (tasks) => {
@@ -36,8 +38,8 @@ export const useTodoStore = create<State & Actions>((set, get) => ({
     try {
       const list = await getAllTodos()
       set({ tasks: list })
-    } catch (e: any) {
-      set({ error: e?.message || 'Load failed' })
+    } catch (e: unknown) {
+      set({ error: toErrorMessage(e) })
     } finally {
       set({ loading: false })
     }
@@ -50,11 +52,11 @@ export const useTodoStore = create<State & Actions>((set, get) => ({
 
   update: async (id, patch) => {
     const updated = await updateTodo(id, patch)
-    set({ tasks: get().tasks.map(t => (t.id === id ? updated : t)) })
+    set({ tasks: get().tasks.map((t) => (t.id === id ? updated : t)) })
   },
 
   remove: async (id) => {
     await deleteTodo(id)
-    set({ tasks: get().tasks.filter(t => t.id !== id) })
+    set({ tasks: get().tasks.filter((t) => t.id !== id) })
   },
 }))
